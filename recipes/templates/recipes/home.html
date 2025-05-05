@@ -1,0 +1,17 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Kuchařka - Kategorie{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Vítejte v naší kuchařce!</h1>
+    <h2>Kategorie receptů</h2>
+    <ul class="list-group">
+        {% for category in categories %}
+            <li class="list-group-item">
+                <a href="{% url 'category_recipes' category.slug %}">{{ category.name }}</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Zatím žádné kategorie.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
