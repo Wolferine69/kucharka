@@ -38,7 +38,7 @@
 
     {% if recipe.image %}
         <h2>Obrázek</h2>
-        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="img-fluid mb-4" style="max-width: 300px;">
+        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="img-fluid mb-4">
     {% endif %}
 
     <h2>Přidat poznámku</h2>
@@ -57,8 +57,8 @@
         {% endfor %}
     </ul>
 
-    <p>
-        <a href="{% url 'category_recipes' category_slug %}" class="btn btn-secondary me-2">Zpět na recepty v kategorii</a>
+    <p class="d-flex flex-column align-items-start">
+        <a href="{% url 'category_recipes' category_slug %}" class="btn btn-secondary mb-2">Zpět na recepty v kategorii</a>
         <a href="{% url 'home' %}" class="btn btn-secondary">Zpět na kategorie</a>
     </p>
 {% endblock %}

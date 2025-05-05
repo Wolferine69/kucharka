@@ -8,9 +8,9 @@
         {% for recipe in recipes %}
             <li class="list-group-item d-flex align-items-center">
                 {% if recipe.image %}
-                    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="recipe-thumbnail me-2">
+                    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="recipe-thumbnail">
                 {% else %}
-                    <span class="recipe-thumbnail me-2 bg-light d-inline-block"></span>
+                    <span class="recipe-thumbnail bg-light d-inline-block"></span>
                 {% endif %}
                 <a href="{% url 'recipe_detail' category.slug recipe.id %}">{{ recipe.title }}</a>
             </li>
