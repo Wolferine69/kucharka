@@ -5,20 +5,16 @@
 {% block content %}
     <h1 class="mb-4">{{ recipe.title }}</h1>
 
-    <h2>Kategorie</h2>
-    <ul class="list-group mb-4">
-        {% for category in recipe.categories.all %}
-            <li class="list-group-item">{{ category.name }}</li>
-        {% empty %}
-            <li class="list-group-item">Žádné kategorie</li>
-        {% endfor %}
-    </ul>
+    <div class="d-flex justify-content-between mb-4">
+        <a href="{% url 'category_recipes' category_slug %}" class="btn btn-secondary">Zpět na recepty v kategorii</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Zpět na kategorie</a>
+    </div>
 
     <div class="recipe-content d-flex mb-4">
         <!-- Ingredience vlevo -->
         <div class="ingredients" style="flex: 1; padding-right: 20px;">
             <h2>Ingredience</h2>
-            <ul class="list-group">
+            <ul class="list-group compact-list">
                 {% for ingredient in recipe.recipe_ingredients.all %}
                     <li class="list-group-item">
                         {{ ingredient.quantity|floatformat:-1 }}
@@ -44,7 +40,7 @@
         </div>
     </div>
 
-    <!-- Poznámky -->
+    <!-- Zbytek šablony (poznámky, formulář, obrázek) zůstává stejný -->
     <h2>Poznámky</h2>
     <ul class="list-group mb-4">
         {% for note in recipe.notes.all %}
@@ -54,7 +50,6 @@
         {% endfor %}
     </ul>
 
-    <!-- Tlačítko a formulář pro přidání poznámky -->
     <h2>Přidat poznámku</h2>
     <button id="show-note-form" class="btn btn-primary mb-4">Přidat novou poznámku</button>
     <form method="post" id="note-form" class="mb-4" style="display: none;">
@@ -63,16 +58,10 @@
         <button type="submit" class="btn btn-primary">Odeslat poznámku</button>
     </form>
 
-    <!-- Obrázek -->
     {% if recipe.image %}
         <h2>Obrázek</h2>
         <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="img-fluid mb-4">
     {% endif %}
-
-    <p class="d-flex flex-column align-items-start">
-        <a href="{% url 'category_recipes' category_slug %}" class="btn btn-secondary mb-2">Zpět na recepty v kategorii</a>
-        <a href="{% url 'home' %}" class="btn btn-secondary">Zpět na kategorie</a>
-    </p>
 
     <!-- JavaScript pro zobrazení/skrytí formuláře -->
     <script>
@@ -81,4 +70,15 @@
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
         });
     </script>
+
+    <!-- Přidání CSS pro kompaktní seznam -->
+    <style>
+        .compact-list .list-group-item {
+            padding: 0.25rem 0.5rem; /* Zmenšení vnitřního paddingu (výchozí je 0.5rem 1rem) */
+            margin-bottom: 0; /* Odstranění mezery mezi položkami */
+        }
+        .compact-list {
+            border-radius: 0.25rem; /* Zachování zaoblení rohů pro celý seznam */
+        }
+    </style>
 {% endblock %}
