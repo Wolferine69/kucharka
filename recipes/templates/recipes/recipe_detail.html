@@ -14,40 +14,37 @@
         {% endfor %}
     </ul>
 
-    <h2>Ingredience</h2>
-    <ul class="list-group mb-4">
-        {% for ingredient in recipe.recipe_ingredients.all %}
-            <li class="list-group-item">
-                {{ ingredient.quantity|floatformat:-1 }}
-                {% if ingredient.unit %}
-                    {{ ingredient.unit }}
-                {% endif %}
-                {{ ingredient.name }}
-            </li>
-        {% empty %}
-            <li class="list-group-item">Žádné ingredience</li>
-        {% endfor %}
-    </ul>
+    <div class="recipe-content d-flex mb-4">
+        <!-- Ingredience vlevo -->
+        <div class="ingredients" style="flex: 1; padding-right: 20px;">
+            <h2>Ingredience</h2>
+            <ul class="list-group">
+                {% for ingredient in recipe.recipe_ingredients.all %}
+                    <li class="list-group-item">
+                        {{ ingredient.quantity|floatformat:-1 }}
+                        {% if ingredient.unit %}
+                            {{ ingredient.unit }}
+                        {% endif %}
+                        {{ ingredient.name }}
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">Žádné ingredience</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <h2>Postup</h2>
-    <div class="card mb-4">
-        <div class="card-body">
-            <p>{{ recipe.instructions|linebreaks }}</p>
+        <!-- Postup napravo -->
+        <div class="instructions" style="flex: 2;">
+            <h2>Postup</h2>
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ recipe.instructions|linebreaks }}</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    {% if recipe.image %}
-        <h2>Obrázek</h2>
-        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="img-fluid mb-4">
-    {% endif %}
-
-    <h2>Přidat poznámku</h2>
-    <form method="post" class="mb-4">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Přidat poznámku</button>
-    </form>
-
+    <!-- Poznámky -->
     <h2>Poznámky</h2>
     <ul class="list-group mb-4">
         {% for note in recipe.notes.all %}
@@ -57,8 +54,31 @@
         {% endfor %}
     </ul>
 
+    <!-- Tlačítko a formulář pro přidání poznámky -->
+    <h2>Přidat poznámku</h2>
+    <button id="show-note-form" class="btn btn-primary mb-4">Přidat novou poznámku</button>
+    <form method="post" id="note-form" class="mb-4" style="display: none;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Odeslat poznámku</button>
+    </form>
+
+    <!-- Obrázek -->
+    {% if recipe.image %}
+        <h2>Obrázek</h2>
+        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="img-fluid mb-4">
+    {% endif %}
+
     <p class="d-flex flex-column align-items-start">
         <a href="{% url 'category_recipes' category_slug %}" class="btn btn-secondary mb-2">Zpět na recepty v kategorii</a>
         <a href="{% url 'home' %}" class="btn btn-secondary">Zpět na kategorie</a>
     </p>
+
+    <!-- JavaScript pro zobrazení/skrytí formuláře -->
+    <script>
+        document.getElementById('show-note-form').addEventListener('click', function() {
+            const form = document.getElementById('note-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
 {% endblock %}
